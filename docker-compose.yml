@@ -4,5 +4,5 @@ services:
     ports:
     - "80:3000"
     environment:
-    VUE_APP_SUBDOMAIN: andre
+      VUE_APP_SUBDOMAIN: andre
     container_name: aplikasi-pertamaku
