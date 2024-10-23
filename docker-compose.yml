@@ -1,51 +1,8 @@
 services:
-  backend:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      target: backend
-    volumes:
-      - ./backend:/usr/src/backend
-      - /usr/src/backend/node_modules
-    environment:
-      - NODE_ENV=development
-    command: pnpm start
+  app:
+    build: .
     ports:
-      - "3000:3000"
-    depends_on:
-      - frontend
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-    logging:
-      driver: json-file
-      options:
-        max-size: "10m"
-        max-file: "3"
-
-  frontend:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      target: frontend
-    volumes:
-      - ./frontend:/usr/src/frontend
-      - /usr/src/frontend/node_modules
+    - "80:3000"
     environment:
-      - NODE_ENV=development
-      - VITE_NAME=andre
-    command: pnpm run dev
-    ports:
-      - "80:3001"
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3001/"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-    logging:
-      driver: json-file
-      options:
-        max-size: "10m"
-        max-file: "3"
+    VUE_APP_SUBDOMAIN: andre
+    container_name: aplikasi-pertamaku
