@@ -1,28 +1,8 @@
 services:
-  frontend:
-    build:
-      context: .
-      dockerfile: ./frontend/Dockerfile
+  app:
+    build: .
     ports:
-      - "3000:3000"
-    volumes:
-      - ./frontend:/app
-      
-    depends_on:
-      - backend
+      - "80:3000"
     environment:
-      - NAME=AndreGamalion
-
-  backend:
-    build:
-      context: .
-      dockerfile: ./backend/Dockerfile
-    ports:
-      - "3000:3000"
-      - "80:80"
-    volumes:
-      - ./backend/db:/app/db
-      - ./certs:/etc/ssl/certs
-      - ./certs:/etc/ssl/private
-    environment:
-      - NAME=FelixIvander
+      VUE_APP_SUBDOMAIN: andre
+    container_name: aplikasi-pertamaku
