@@ -15,10 +15,11 @@ WORKDIR /app/backend
 COPY backend/package.json backend/pnpm-lock.yaml ./
 RUN npm install && npm install -g pnpm && pnpm install
 
-COPY ./backend ./
+COPY backend/ .
 
 COPY --from=frontend /usr/src/frontend/dist ./public
 
+EXPOSE 3001
 EXPOSE 3000
 
 ENV VITE_NAME=$VITE_NAME
