@@ -35,7 +35,7 @@ services:
       - /usr/src/frontend/node_modules
     environment:
       - NODE_ENV=development
-      - VITE_USER_NAME=andre
+      - VITE_NAME=andre
     command: pnpm run dev
     ports:
       - "80:3000"
