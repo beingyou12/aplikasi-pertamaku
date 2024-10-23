@@ -4,13 +4,20 @@ import { fileURLToPath } from "url";
 import sqlite3 from "sqlite3";
 import cors from "cors";
 
-const app = express();
-app.use(express.json());
+const allowedOrigins = ["https://trusted-domain.com", "https://another-trusted-domain.com"];
+
 app.use(
-	cors({
-		origin: "*",
-		optionsSuccessStatus: 200,
-	})
+    cors({
+        origin: function (origin, callback) {
+            if (!origin) return callback(null, true);
+
+            if (allowedOrigins.indexOf(origin) === -1) {
+                return callback(new Error("CORS policy: Not allowed by CORS"), false);
+            }
+            return callback(null, true);
+        },
+        optionsSuccessStatus: 200,
+    })
 );
 
 const __filename = fileURLToPath(import.meta.url);
