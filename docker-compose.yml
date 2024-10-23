@@ -38,9 +38,9 @@ services:
       - VITE_NAME=andre
     command: pnpm run dev
     ports:
-      - "80:3000"
+      - "80:3001"
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000/"]
+      test: ["CMD", "curl", "-f", "http://localhost:3001/"]
       interval: 30s
       timeout: 10s
       retries: 5
