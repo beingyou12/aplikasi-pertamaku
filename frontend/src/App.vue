@@ -23,8 +23,10 @@ const getUser = async () => {
   }
 };
 
+const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
 const changeEmail = async () => {
-  if (!newEmail.value.includes('@')) {
+  if (!isValidEmail(newEmail.value)) {
     alert('Please enter a valid email address');
     return;
   }
