@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import CommentSection from './components/CommentSection.vue';
 
 const userId = ref('');
@@ -7,6 +7,24 @@ const users = ref(null);
 const newEmail = ref('');
 const loading = ref(false);
 const error = ref('');
+const csrfToken = ref('');  
+
+const getCsrfToken = async () => {
+  try {
+    const response = await fetch('http://localhost:3000/api/csrf-token', {
+      credentials: 'include', 
+    });
+    if (!response.ok) throw new Error('Failed to fetch CSRF token');
+    const data = await response.json();
+    csrfToken.value = data.csrfToken;
+  } catch (err) {
+    console.error('Error fetching CSRF token:', err.message);
+  }
+};
+
+onMounted(() => {
+  getCsrfToken();  
+});
 
 const getUser = async () => {
   loading.value = true;
@@ -30,13 +48,16 @@ const changeEmail = async () => {
     alert('Please enter a valid email address');
     return;
   }
+
   try {
     const response = await fetch(`http://localhost:3000/api/user/${userId.value}/change-email`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'X-CSRF-Token': csrfToken.value,  
       },
       body: JSON.stringify({ email: newEmail.value }),
+      credentials: 'include', 
     });
     if (!response.ok) throw new Error('Failed to change email');
     alert('Email updated successfully');
