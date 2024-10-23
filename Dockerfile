@@ -17,7 +17,7 @@ RUN npm install && npm install -g pnpm && pnpm install
 
 COPY backend/ .
 
-COPY --from=frontend /usr/src/frontend/dist ./public
+COPY --from=frontend /app/frontend/dist ./public
 
 EXPOSE 3001
 EXPOSE 3000
