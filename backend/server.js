@@ -60,13 +60,20 @@ app.post("/api/user/:id/change-email", (req, res) => {
     });
 });
 
-
 app.get("/api/file", (req, res) => {
-	const __filename = fileURLToPath(import.meta.url);
-	const __dirname = path.dirname(__filename);
+    const filePath = path.join(__dirname, "files", req.query.name);
+    const resolvedPath = path.resolve(filePath);
 
-	const filePath = path.join(__dirname, "files", req.query.name);
-	res.sendFile(filePath);
+    // Ensure the resolved path starts with the intended directory
+    if (!resolvedPath.startsWith(path.resolve(__dirname, "files"))) {
+        return res.status(403).send("Access denied");
+    }
+
+    res.sendFile(resolvedPath, (err) => {
+        if (err) {
+            res.status(404).send("File not found");
+        }
+    });
 });
 
 app.get("*", (req, res) => {
