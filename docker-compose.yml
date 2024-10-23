@@ -1,0 +1,28 @@
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: ./frontend/Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      
+    depends_on:
+      - backend
+    environment:
+      - NAME=AndreGamalion
+
+  backend:
+    build:
+      context: .
+      dockerfile: ./backend/Dockerfile
+    ports:
+      - "3000:3000"
+      - "80:80"
+    volumes:
+      - ./backend/db:/app/db
+      - ./certs:/etc/ssl/certs
+      - ./certs:/etc/ssl/private
+    environment:
+      - NAME=FelixIvander
